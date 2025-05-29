@@ -1,39 +1,40 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
-import { FormsModule } from '@angular/forms';
 import { SupabaseService } from 'src/app/pages/services/supabase.service';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  standalone: true,
-  imports: [CommonModule, IonicModule, FormsModule],
-  selector: 'app-auth',
+  selector: 'app-login',
   templateUrl: './auth.page.html',
-  styleUrls: ['./auth.page.scss'],
+  standalone: true,
+  imports: [IonicModule, FormsModule, CommonModule],
 })
 export class AuthPage {
   email = '';
   password = '';
-  error = '';
+  errorMessage = '';
 
-  constructor(private router: Router, private supabase: SupabaseService) {}
+  constructor(private supabase: SupabaseService, private router: Router) {}
 
   async login() {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: this.email,
-      password: this.password,
-    });
-    if (error) this.error = error.message;
-    else this.router.navigate(['/home']);
+    this.errorMessage = '';
+    try {
+      await this.supabase.signIn(this.email, this.password);
+      this.router.navigate(['/chat']);
+    } catch (error: any) {
+      this.errorMessage = error.message || 'Error en login';
+    }
   }
 
   async register() {
-    const { error } = await supabase.auth.signUp({
-      email: this.email,
-      password: this.password,
-    });
-    if (error) this.error = error.message;
-    else alert('Registro exitoso. Verifica tu email.');
+    this.errorMessage = '';
+    try {
+      await this.supabase.signUp(this.email, this.password);
+      alert('Revisa tu correo para confirmar el registro.');
+    } catch (error: any) {
+      this.errorMessage = error.message || 'Error en registro';
+    }
   }
 }
