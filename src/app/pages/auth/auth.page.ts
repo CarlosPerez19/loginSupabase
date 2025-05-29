@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { supabase } from 'src/app/supabase.client';
+import { SupabaseService } from 'src/app/pages/services/supabase.service';
 
 @Component({
   standalone: true,
@@ -17,7 +17,7 @@ export class AuthPage {
   password = '';
   error = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private supabase: SupabaseService) {}
 
   async login() {
     const { error } = await supabase.auth.signInWithPassword({
