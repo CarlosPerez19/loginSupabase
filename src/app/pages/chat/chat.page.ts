@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
 })
-
 export class ChatPage implements OnInit, OnDestroy {
   @ViewChild('content') content!: ElementRef;
 
@@ -26,38 +25,38 @@ export class ChatPage implements OnInit, OnDestroy {
     this.loadMessages();
 
     this.supabase.listenMessages((msg) => {
-    this.messages.push(msg);
-    setTimeout(() => this.scrollToBottom(), 100);
+      this.messages.push(msg);
+      setTimeout(() => this.scrollToBottom(), 100);
     });
   }
 
   scrollToBottom() {
     if (this.content && this.content.nativeElement) {
-    this.content.nativeElement.scrollToBottom(300);
+      this.content.nativeElement.scrollToBottom(300);
     }
   }
 
   ngOnDestroy() {
     this.supabase.unsubscribeMessages();
     if (this.subscription) {
-    this.subscription.unsubscribe();
+      this.subscription.unsubscribe();
     }
   }
 
   async loadMessages() {
     const { data, error } = await this.supabase.supabase
-    .from('messages')
-    .select('*')
-    .order('inserted_at', { ascending: true });
+      .from('messages')
+      .select('*')
+      .order('inserted_at', { ascending: true });
 
     if (error) {
-    console.error('Error al cargar mensajes:', error);
-    return;
+      console.error('Error al cargar mensajes:', error);
+      return;
     }
 
     if (data) {
-    console.log('Mensajes cargados:', data);
-    this.messages = data;
+      console.log('Mensajes cargados:', data);
+      this.messages = data;
     }
   }
 
@@ -69,8 +68,8 @@ export class ChatPage implements OnInit, OnDestroy {
     if (!this.newMessage.trim()) return;
 
     const { data, error } = await this.supabase.supabase
-    .from('messages')
-    .insert([{ user_id: user.id, username: user.email, content: this.newMessage.trim() }]);
+      .from('messages')
+      .insert([{ user_id: user.id, username: user.email, content: this.newMessage.trim() }]);
     if (error) throw error;
 
     this.newMessage = '';
