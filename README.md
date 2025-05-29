@@ -12,10 +12,9 @@ Chat Ts
 
 ![image](https://github.com/user-attachments/assets/c0290100-d14e-46e1-867e-8233f7c7d51c)
 
-Chat HTML
-
-![image](https://github.com/user-attachments/assets/a5540054-6431-495e-8799-c5f2dddddc53)
 
 Resultado 
 
-![Uploading image.png…]()
+![image](https://github.com/user-attachments/assets/a5540054-6431-495e-8799-c5f2dddddc53)
+
+
